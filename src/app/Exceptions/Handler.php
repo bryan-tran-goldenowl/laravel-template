@@ -45,4 +45,13 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function report(Throwable $exception)
+    {
+        if ($this->shouldReport($exception)) {
+            \Sentry\init(config('sentry'));
+            \Sentry\captureException($exception);
+        }
+        parent::report($exception);
+    }
 }

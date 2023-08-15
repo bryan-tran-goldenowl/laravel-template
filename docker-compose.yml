@@ -31,7 +31,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "${DB_PORT}:3306"
+      - "${DB_EXTERNAL_PORT}:3306"
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER:  ${DB_USERNAME}
@@ -76,10 +76,11 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     volumes:
-      - ./:/var/www/html
+      - ./src:/var/www/html
     depends_on:
+      - app
       - php
-    entrypoint: [ 'composer', '--ignore-platform-reqs' ]
+    entrypoint: [  'composer', 'install', '--ignore-platform-reqs' ]
     networks:
       - laravel
 
@@ -106,8 +107,9 @@ services:
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
+      - composer
       - mysql
-    entrypoint: [ 'php', '/var/www/html/artisan' ]
+    entrypoint: [ 'php', '/var/www/html/artisan', 'migrate' ]
     networks:
       - laravel
 

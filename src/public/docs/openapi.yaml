@@ -1,0 +1,101 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+paths:
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/auth/register:
+    post:
+      summary: 'Create User'
+      operationId: createUser
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: corporis
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: wilburn.dare@example.net
+                password:
+                  type: string
+                  description: ''
+                  example: hic
+                password_confirm:
+                  type: string
+                  description: 'The value and <code>password</code> must match.'
+                  example: voluptatem
+              required:
+                - name
+                - email
+                - password
+                - password_confirm
+      security: []
+  /api/auth/login:
+    post:
+      summary: 'Login The User'
+      operationId: loginTheUser
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: uwaelchi@example.net
+                password:
+                  type: string
+                  description: ''
+                  example: unde
+              required:
+                - email
+                - password
+      security: []
+tags:
+  -
+    name: Endpoints
+    description: ''
