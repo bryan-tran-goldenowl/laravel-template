@@ -4,20 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
-use App\Models\User;
-use App\Repositories\User\UserRepository;
-use Illuminate\Http\Request;
+use App\Services\User\UserService;
 use App\Http\Requests\RegisterRequest;
-use Mockery\Exception;
 
 class AuthController extends Controller
 {
     /**
      * Create User
      */
-    public function createUser(RegisterRequest $request, UserRepository $userRepository)
+    public function createUser(RegisterRequest $request, UserService $userService)
     {
-        $user = $userRepository->signup($request);
+        $user = $userService->signup($request);
         return response()->json([
             'message' => 'User Created Successfully',
             'id' => $user->id
@@ -28,10 +25,10 @@ class AuthController extends Controller
     /**
      * Login The User
      */
-    public function loginUser(LoginRequest $request, UserRepository $userRepository)
+    public function loginUser(LoginRequest $request, UserService $userService)
     {
         try {
-            if (!$user = $userRepository->login($request)) {
+            if (!$user = $userService->login($request)) {
                 return response()->json([
                     'message' => 'Can not login',
                 ], 401);

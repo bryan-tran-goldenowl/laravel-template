@@ -1,13 +1,11 @@
 <?php
-
-namespace App\Repositories\User;
+namespace App\Services\User;
 
 use App\Models\User;
-use App\Repositories\User\UserInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class UserRepository implements UserInterface
+class UserService
 {
     public function __construct(User $model)
     {

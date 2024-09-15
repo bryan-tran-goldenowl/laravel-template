@@ -7,7 +7,8 @@ use App\Http\Controllers\Api\AuthController;
 use Tests\TestCase;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use App\Repositories\User\UserRepository;
+
+use App\Services\User\UserService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
 use Illuminate\Http\JsonResponse;
@@ -29,7 +30,7 @@ class CreateUserTest extends TestCase
         ]);
 
 
-        $userRepository = $this->getMockBuilder(UserRepository::class)
+        $userService = $this->getMockBuilder(UserService::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -38,14 +39,14 @@ class CreateUserTest extends TestCase
         $user->email = 'johndoe@example.com';
         $user->id = 500;
         $user->password = bcrypt('12345678');
-        $userRepository->expects($this->once())
+        $userService->expects($this->once())
             ->method('signup')
             ->with($request)
             ->willReturn($user);
 
 
         $controller = new AuthController();
-        $response = $controller->createUser($request, $userRepository);
+        $response = $controller->createUser($request, $userService);
         $this->assertEquals(['message' => 'User Created Successfully', 'id' => 500], json_decode($response->getContent(), true));
 
     }
